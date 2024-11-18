@@ -1,12 +1,12 @@
-import { books, } from "@prisma/client";
-import logger from "@middleware/logger/config";
-import { prismaClient } from "@prisma/index";
+import { books, } from '@prisma/client';
+import logger from '@middleware/logger/config';
+import { prismaClient } from '@prisma/index';
 
-export const addBookService = async (data: Omit<books, "id" >) => {
+export const addBookService = async (data: Omit<books, 'id' >) => {
   try {
     return await prismaClient.books.create({ data });
   } catch (error) {
-    handleError(error, "Error creating book ");
+    handleError(error, 'Error creating book ');
     throw error;
   } finally {
     await safelyDisconnectPrisma();
@@ -31,28 +31,28 @@ export const getOneBookService = async (id: number) => {
 };
 
 
-export const editBookService = async ({ id, data }: { id: number; data: Omit<books, "id"> }) => {
+export const editBookService = async ({ id, data }: { id: number; data: Omit<books, 'id'> }) => {
   try {
     return await prismaClient.books.update({
       data,
       where: { id: id },
     });
   } catch (error) {
-    handleError(error, "Error creating book");
+    handleError(error, 'Error creating book');
     throw error;
   } finally {
     await safelyDisconnectPrisma();
   }
 };
 
-export const deleteBookService = async ({ id, data }: { id: number; data: Pick<books, "deletedAt"> }) => {
+export const deleteBookService = async ({ id, data }: { id: number; data: Pick<books, 'deletedAt'> }) => {
   try {
     return await prismaClient.books.update({
       data,
       where: { id: id },
     });
   } catch (error) {
-    handleError(error, "Error deleting book ");
+    handleError(error, 'Error deleting book ');
     throw error;
   } finally {
     await safelyDisconnectPrisma();

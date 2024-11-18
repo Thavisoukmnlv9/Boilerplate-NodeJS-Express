@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-import { validationResult } from "express-validator";
+import { NextFunction, Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 
 export const valResult = async (
   req: Request,
@@ -12,3 +12,4 @@ export const valResult = async (
   }
   next();
 };
+

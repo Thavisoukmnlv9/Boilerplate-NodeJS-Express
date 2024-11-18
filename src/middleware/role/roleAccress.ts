@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { tokenPayloadService } from "../../api/users/service";
-import { Roles } from "../../api/users/types";
+import { NextFunction, Request, Response } from 'express';
+import { tokenPayloadService } from '../../api/users/service';
+import { Roles } from '../../api/users/types';
 
 
 function isRoleAuthorized(userRole: Roles, requiredRoles: Roles[]): boolean {
@@ -15,14 +15,14 @@ export function roleAccess(roles: Roles[]) {
       if (!isRoleAuthorized(userRole, roles)) {
         return res
           .status(403)
-          .json({ status: "error",
-            message: "You don't have permission" });
+          .json({ status: 'error',
+            message: 'You don\'t have permission' });
       }
       next();
     } catch (error) {
       return res.status(500).json({
-        status: "error",
-        message: "An error occurred during role validation.",
+        status: 'error',
+        message: 'An error occurred during role validation.',
       });
     }
   };

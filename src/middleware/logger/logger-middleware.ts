@@ -1,9 +1,9 @@
-import cls from "cls-hooked";
-import { NextFunction, Request, Response } from "express";
-import { v4 as uuidv4 } from "uuid";
-import logger from "./config";
+import cls from 'cls-hooked';
+import { NextFunction, Request, Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
+import logger from './config';
 
-export const logNamespace = cls.createNamespace("logger");
+export const logNamespace = cls.createNamespace('logger');
 
 export function logRequestResponse(
   req: Request,
@@ -20,7 +20,7 @@ export function logRequestResponse(
   }
 
   // Extract the user's IP address from the X-Real-IP header or the connection's remote address
-  const ip = req.headers["x-real-ip"] || req.socket.remoteAddress;
+  const ip = req.headers['x-real-ip'] || req.socket.remoteAddress;
 
   // Generate a unique request ID
   const requestId = uuidv4();
@@ -37,7 +37,7 @@ export function logRequestResponse(
   }
 
   // Log the request metadata, ID, tracing data, and body using Winston
-  logger.info("Request", {
+  logger.info('Request', {
     method: req.method,
     url: req.originalUrl,
     requestId,
@@ -65,7 +65,7 @@ export function logRequestResponse(
     }
 
     // Log the response metadata, ID, tracing data, and body using Winston
-    logger.info("Response", {
+    logger.info('Response', {
       timestamp: new Date().toISOString(),
       requestId,
       statusCode: res.statusCode,
@@ -80,9 +80,9 @@ export function logRequestResponse(
 
   // Register cls
   logNamespace.run(() => {
-    logNamespace.set("requestId", requestId);
-    logNamespace.set("tracingData", tracingData);
-    logNamespace.set("ip", ip);
+    logNamespace.set('requestId', requestId);
+    logNamespace.set('tracingData', tracingData);
+    logNamespace.set('ip', ip);
 
     // Call the next middleware or route handler
     return next();

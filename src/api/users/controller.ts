@@ -1,21 +1,21 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
   createUserService,
   findOneUserService,
   getManyUserService,
-} from "./service";
-import { users } from "@prisma/client";
-import bcrypt from "bcrypt";
-import { StatusCodes } from "http-status-codes";
-import logger from "@middleware/logger/config";
-import { sign } from "@utils/jwt";
+} from './service';
+import { users } from '@prisma/client';
+import bcrypt from 'bcrypt';
+import { StatusCodes } from 'http-status-codes';
+import logger from '@middleware/logger/config';
+import { sign } from '@utils/jwt';
 
 export const getManyUserController = async (req: Request, res: Response) => {
   const users = await getManyUserService();
 
   res.json({
-    status: "ok",
-    message: "You have been authenticated",
+    status: 'ok',
+    message: 'You have been authenticated',
     users,
   });
 };
@@ -25,7 +25,7 @@ export const createUserController = async (req: Request, res: Response) => {
   const tel = req.body.tel;
   const email = req.body.email;
   const password = req.body.password;
-  const role = req.body.role || "MEMBER";
+  const role = req.body.role || 'MEMBER';
   const status = true;
 
   try {
@@ -36,8 +36,8 @@ export const createUserController = async (req: Request, res: Response) => {
     const check = await findOneUserService(tel);
     if (check) {
       return res.status(StatusCodes.BAD_REQUEST).json({
-        status: "error",
-        message: "ໝາຍເລກໂທລະສັບນີ້ ມີໃນລະບົບແລ້ວ",
+        status: 'error',
+        message: 'ໝາຍເລກໂທລະສັບນີ້ ມີໃນລະບົບແລ້ວ',
       });
     }
 
@@ -57,15 +57,15 @@ export const createUserController = async (req: Request, res: Response) => {
     const user = await createUserService(_user);
 
     return res.status(StatusCodes.CREATED).json({
-      status: "success",
-      message: "ສ້າງບັນຊີສໍາເລັດ",
+      status: 'success',
+      message: 'ສ້າງບັນຊີສໍາເລັດ',
       user,
     });
   } catch (error) {
     logger.error(error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: "error",
-      message: "ສ້າງບັນຊີບໍ່ສໍາເລັດ",
+      status: 'error',
+      message: 'ສ້າງບັນຊີບໍ່ສໍາເລັດ',
     });
   }
 };
@@ -77,16 +77,16 @@ export const loginController = async (req: Request, res: Response) => {
   const check = await findOneUserService(tel);
   if (!check) {
     return res.status(StatusCodes.NOT_FOUND).json({
-      status: "error",
-      message: "ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ",
+      status: 'error',
+      message: 'ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ',
     });
   }
 
   const match = bcrypt.compareSync(password, check.password);
   if (!match) {
     return res.status(StatusCodes.NOT_FOUND).json({
-      status: "error",
-      message: "ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ",
+      status: 'error',
+      message: 'ເບີໂທ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ',
     });
   }
 
@@ -100,13 +100,13 @@ export const loginController = async (req: Request, res: Response) => {
   const token = await sign(payload);
   if (!token) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: "error",
-      message: "Internal Server Error",
+      status: 'error',
+      message: 'Internal Server Error',
     });
   }
   return res.status(StatusCodes.OK).json({
-    status: "success",
-    message: "You have been authenticated",
+    status: 'success',
+    message: 'You have been authenticated',
     user: payload,
     token,
   });

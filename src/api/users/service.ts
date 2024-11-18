@@ -1,8 +1,8 @@
-import { users } from "@prisma/client";
-import { prismaClient } from "../../prisma";
-import logger from "../../middleware/logger/config";
-import { Request } from "express";
-import { TokenPayload } from "./types";
+import { users } from '@prisma/client';
+import { prismaClient } from '../../prisma';
+import logger from '../../middleware/logger/config';
+import { Request } from 'express';
+import { TokenPayload } from './types';
 
 export const getManyUserService = async () => {
   try {
