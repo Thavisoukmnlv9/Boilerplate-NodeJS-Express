@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": true,
+    "rootDir": "./src",
     "target": "ES2020",
     "module": "NodeNext",
     "outDir": "./dist",
@@ -23,3 +26,4 @@
     "node_modules"
   ]
 }
+

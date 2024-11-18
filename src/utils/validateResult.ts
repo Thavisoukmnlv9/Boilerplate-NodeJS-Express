@@ -8,7 +8,7 @@ export const valResult = async (
 ) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ status: "error", message: errors.array() });
+    return res.status(400).json({ status: 'error', message: errors.array() });
   }
   next();
 };
