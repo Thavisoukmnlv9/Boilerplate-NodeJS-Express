@@ -23,7 +23,7 @@ This boilerplate provides a robust foundation for building a Node.js-powered API
 
 1. Clone the Repository:
 
-        git clone <repository-url>
+        git clone https://github.com/Thavisoukmnlv9/Boilerplate-NodeJS-Express.git
         cd boilerplate
 
 2. Install Dependencies:
