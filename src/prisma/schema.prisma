@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id        Int       @id(map: "users_pk") @default(autoincrement())
+  tel       String    @unique(map: "users_pk_4") @db.VarChar(8)
+  email     String?   @unique(map: "users_pk_3") @db.VarChar(100)
+  password  String    @db.VarChar(255)
+  role      String?   @db.VarChar(20)
+  status    Boolean?  @default(true)
+  fullName  String    @db.VarChar(100)
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @default(now()) @db.Timestamptz(6)
+  deletedAt DateTime? @db.Timestamptz(6)
+}
+
+model bookType {
+  id        Int       @id @default(autoincrement())
+  iconPath  String    @db.Char(255)
+  title     String    @db.Char(100)
+  subtitle  String?   @db.Char(255)
+  index     Int       @default(1)
+  createdAt DateTime? @default(now()) @db.Timetz(6)
+  updatedAt DateTime? @default(now()) @db.Timetz(6)
+  deletedAt DateTime? @db.Timestamptz(6)
+  books     books[]
+}
+
+model books {
+  id           Int       @id @default(autoincrement())
+  title        String
+  content      String
+  bookTypeId   Int
+  createdAt    DateTime? @db.Timetz(6)
+  updatedAt    DateTime? @db.Timetz(6)
+  approvedDate DateTime? @db.Timetz(6)
+  approvedBy   Int?
+  bookIndex    Int?
+  status       Boolean?
+  deletedAt    DateTime? @db.Timetz(6)
+  bookType     bookType  @relation(fields: [bookTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "bookType")
+}
