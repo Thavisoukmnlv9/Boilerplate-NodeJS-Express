@@ -6,7 +6,9 @@ import { TokenPayload } from './types';
 
 export const getManyUserService = async () => {
   try {
-    const result = await prismaClient.users.findMany();
+    const result = await prismaClient.users.findMany(
+      {}
+    );
     return result;
   } catch (error) {
     return [];

@@ -66,3 +66,6 @@ Run the server with:
 Swagger is available at:
 
     http://127.0.0.1:3000/swagger
+
+- code smell
+- postman set header

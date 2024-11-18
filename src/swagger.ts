@@ -1,5 +1,5 @@
 import swaggerAutogen from 'swagger-autogen';
-import env from './env';
+import env from './utils/env';
 // const doc = {
 //   info: {
 //     version: "1.0.0",

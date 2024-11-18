@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import { join } from 'path';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
-import env from '../../env';
+import env from '../../utils/env';
 import { logNamespace } from './logger-middleware';
 
 const logDirectory = join(env.PWD, 'logs');

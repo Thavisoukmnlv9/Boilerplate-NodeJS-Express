@@ -3,7 +3,7 @@ import express from 'express';
 import requestIp from 'request-ip';
 import { logRequestResponse } from './middleware/logger/logger-middleware';
 import router from './routes/index';
-import env from './env';
+import env from './utils/env';
 
 import swaggerUi from 'swagger-ui-express';
 import { helpCheck } from './utils/helpCheck';

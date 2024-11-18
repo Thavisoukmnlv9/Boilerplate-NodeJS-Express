@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { SignOptions } from 'jsonwebtoken';
-import env from '../env';
+import env from './env';
 import { logNamespace } from '../middleware/logger/logger-middleware';
 import { TokenPayload } from '../api/users/types';
 

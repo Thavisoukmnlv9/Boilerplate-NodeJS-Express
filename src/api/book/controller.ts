@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
-import { addBookService, deleteBookService, editBookService, getManyBookService, getOneBookService } from './service';
+import { addBookService, deleteBookService, editBookService, getOneBookService } from './service';
 import { StatusCodes } from 'http-status-codes';
 import logger from '@middleware/logger/config';
-import { PrismaClient, books } from '@prisma/client';
+import { books } from '@prisma/client';
 import { generateModelFields } from '@api/createRequestToModel';
+import { getListService } from '@api/service/getList';
+
 
 export const getManyBookController = async (req: Request, res: Response) => {
-  const books = await getManyBookService();
+  const books = await getListService({ model: "books" });
   res.json({
     status: 'ok',
     message: 'success',
@@ -28,7 +30,6 @@ export const getOneBookController = async (req: Request, res: Response) => {
 export const createBookController = async (req: Request, res: Response) => {
   const body = req.body;
   const bookData = generateModelFields<books>({ body, model:'books' });
-  console.log('🚀 ~ createBookController ~ bookData:', bookData);
   try {
     const completeBookData = { ...bookData, approvedDate: new Date() };
     const newBook = await addBookService(completeBookData);
@@ -101,18 +102,3 @@ export const deleteBookController = async (req: Request, res: Response) => {
   }
 };
 
-
-
-const handleResponse = (res: Response, status: string, message: string, data?: any) => {
-  if (status === 'success') {
-    return res.status(StatusCodes.OK).json({ status, message, data, });
-  }
-  return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-    status,
-    message,
-  });
-};
-
-
-
-7;

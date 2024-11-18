@@ -9,14 +9,14 @@ import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 import logger from '@middleware/logger/config';
 import { sign } from '@utils/jwt';
+import { getListService } from '@api/service/getList';
 
 export const getManyUserController = async (req: Request, res: Response) => {
-  const users = await getManyUserService();
-
+  const books = await getListService({ model: "users" });
   res.json({
     status: 'ok',
     message: 'You have been authenticated',
-    users,
+    books,
   });
 };
 
@@ -71,6 +71,7 @@ export const createUserController = async (req: Request, res: Response) => {
 };
 
 export const loginController = async (req: Request, res: Response) => {
+  console.log("--".repeat(50));
   const tel = req.body.tel;
   const password = req.body.password;
 

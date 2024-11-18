@@ -7,13 +7,6 @@ import {
 } from '../api/users/controller';
 
 import {
-  createBookTypeController,
-  deleteBookTypeController,
-  editBookTypeController,
-  getManyBookTypeController,
-} from '../api/bookTypes/controller';
-
-import {
   createBookController,
   deleteBookController,
   editBookController,
@@ -22,7 +15,6 @@ import {
 } from '../api/book/controller';
 
 import { valLogin, valUserCreate, valUserUpdate } from '../api/users/validate';
-import { valBookType } from '../api/bookTypes/validate';
 import { bookValidation } from '../api/book/validate';
 
 import { valResult } from '../utils/validateResult';
@@ -35,11 +27,7 @@ router.post('/users', valUserCreate, valResult, createUserController);
 router.put('/users', valUserUpdate, valResult, createUserController);
 router.post('/login', valLogin, valResult, loginController);
 
-// endpoint book types
-router.get('/books-types', verify, getManyBookTypeController);
-router.post('/book-types/create', verify, valBookType, valResult, createBookTypeController);
-router.put('/book-types/update/:id', verify, valBookType, valResult, editBookTypeController );
-router.put('/book-types/delete/:id', verify, valResult, deleteBookTypeController);
+
 
 // endpoint book
 router.get('/books', verify, getManyBookController);
