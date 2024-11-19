@@ -1,18 +1,20 @@
 import { Request, Response } from 'express';
-import { addBookService, deleteBookService, editBookService, getOneBookService } from './service';
+import { addBookService, deleteBookService, editBookService, getListBooksServices, getOneBookService } from './service';
 import { StatusCodes } from 'http-status-codes';
 import logger from '@middleware/logger/config';
 import { books } from '@prisma/client';
-import { generateModelFields } from '@api/createRequestToModel';
-import { getListService } from '@api/service/getList';
-
+import { generateModelFields } from '@utils/createRequestToModel';
 
 export const getManyBookController = async (req: Request, res: Response) => {
-  const books = await getListService({ model: "books" });
+  const { page, limit } = req.query;
+  const books = await getListBooksServices({
+    page: parseInt(page as string, 10) || 1,
+    limit: parseInt(limit as string, 10) || 10,
+  });
   res.json({
     status: 'ok',
     message: 'success',
-    books,
+    ...books,
   });
 };
 

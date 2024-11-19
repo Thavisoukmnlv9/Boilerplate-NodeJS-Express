@@ -1,6 +1,18 @@
 import { books, } from '@prisma/client';
 import logger from '@middleware/logger/config';
 import { prismaClient } from '@prisma/index';
+import prisma from '@prisma/prismaClientSetup';
+import { addIndexToResults } from '@utils/addIndexToResults';
+
+export const getListBooksServices = async ({ page = 1, limit = 10, }: { page: number; limit: number; }) => {
+  const [data, meta] = await prisma.books.paginate().withPages({
+    page,
+    limit,
+    includePageCount: true,
+  });
+  const dataWithIndex = addIndexToResults(data, page, limit);
+  return { meta, result: dataWithIndex };
+};
 
 export const addBookService = async (data: Omit<books, 'id' >) => {
   try {
