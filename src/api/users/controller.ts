@@ -99,6 +99,7 @@ export const loginController = async (req: Request, res: Response) => {
   };
 
   const token = await sign(payload);
+  const refreshToken = await sign(payload);
   if (!token) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: 'error',
@@ -110,5 +111,6 @@ export const loginController = async (req: Request, res: Response) => {
     message: 'You have been authenticated',
     user: payload,
     token,
+    // refreshToken,
   });
 };

@@ -4,9 +4,9 @@ import env from './env';
 import { logNamespace } from '../middleware/logger/logger-middleware';
 import { TokenPayload } from '../api/users/types';
 
-const i = 'Champa Lab'; // Issuer (Software organization who issues the token)
-const s = 'sonephetmnlv@gmail.com'; // Subject (intended user of the token)
-const a = 'https://champalab.com'; // Audience (Domain within which this token will live and function)
+const i = 'Boilerplate'; // Issuer (Software organization who issues the token)
+const s = 'Thavisoukmnlv@gmail.com'; // Subject (intended user of the token)
+const a = 'https://thavisoukmnlv.com'; // Audience (Domain within which this token will live and function)
 
 const refreshTokenOptions: SignOptions = {
   issuer: i,
