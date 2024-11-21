@@ -33,9 +33,11 @@ export const findOneUserService = async (tel: string) => {
   }
 };
 
+
 export const createUserService = async (user: users) => {
-  console.log({ user });
   const { id, ..._user } = user;
+  console.log("🚀 ~ createUserService ~ user:", _user)
+
   try {
     const result = await prismaClient.users.create({
       data: _user,

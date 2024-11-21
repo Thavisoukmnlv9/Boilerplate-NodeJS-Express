@@ -50,10 +50,14 @@ export const createUserController = async (req: Request, res: Response) => {
       status,
       updatedAt: new Date(),
       createdAt: new Date(),
-      id: 1,
+      id: 2,
       deletedAt: null,
     };
-
+    console.log("passwordHash,", passwordHash)
+    // INSERT INTO users (tel, email, password, role, "fullName", status, "createdAt", "updatedAt", "deletedAt")
+    // VALUES
+    //     ('59684710', 'user1@example.com', 'admin@1234', 'ADMIN', 'Thavisouk Minalavong', true, '2024-11-20 10:00:00', '2024-11-20 10:00:00', NULL);
+    
     const user = await createUserService(_user);
 
     return res.status(StatusCodes.CREATED).json({
@@ -94,13 +98,14 @@ export const loginController = async (req: Request, res: Response) => {
   const payload = {
     id: check.id,
     tel: check.tel,
-    role: check.role,
+    roles: ["MANAGER"],
     fullName: check.fullName,
+    email: check.email
   };
 
-  const token = await sign(payload);
+  const accessToken = await sign(payload);
   const refreshToken = await sign(payload);
-  if (!token) {
+  if (!accessToken) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       status: 'error',
       message: 'Internal Server Error',
@@ -110,7 +115,7 @@ export const loginController = async (req: Request, res: Response) => {
     status: 'success',
     message: 'You have been authenticated',
     user: payload,
-    token,
-    // refreshToken,
+    accessToken,
+    refreshToken
   });
 };

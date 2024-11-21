@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --delay 400ms --exec ts-node -r tsconfig-paths/register src/index.ts",
-    "start": "node dist/index.js",
+    "start": "yarn build && node dist/swagger.js",
     "build": "tsc",
     "db": "yarn db:pull && yarn db:generate",
     "db:pull": "yarn prisma db pull",

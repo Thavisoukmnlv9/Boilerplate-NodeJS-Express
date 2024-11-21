@@ -62,10 +62,3 @@ Run the server with:
     yarn dev
 
 ## Access API Documentation
-
-Swagger is available at:
-
-    http://127.0.0.1:3000/swagger
-
-- code smell
-- postman set header

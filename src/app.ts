@@ -21,14 +21,5 @@ app.use(logRequestResponse);
 app.get('/', helpCheck);
 app.use(`${env.BASE_PATH}/v1`, router);
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-function testEslint() {
-  const a = true;
-  if (a) {
-    if (a) {
-      if (a) {
-        return 'test';
-      }
-    }
-  }
-}
+
 export default app;

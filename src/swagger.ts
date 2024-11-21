@@ -72,9 +72,9 @@ const doc = {
   },
   host: `localhost:${env.NODE_PORT}`,
   basePath: `${env.BASE_PATH}/v1`,
-  consumes: ['application/json'],
-  produces: ['application/json'],
-  schemas: ['http'],
+  consumes: ["application/json"],
+  produces: ["application/json"],
+  schemas: ["http"],
 };
 const outputFile = './src/swagger-output.json';
 const endpointsFiles = ['./routes/index.js'];

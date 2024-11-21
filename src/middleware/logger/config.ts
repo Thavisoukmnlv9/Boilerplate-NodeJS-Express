@@ -27,6 +27,7 @@ const customFormat = winston.format.combine(
         tracingData: logNamespace?.get('tracingData'),
         username: logNamespace?.get('username'),
         user_type_name: logNamespace?.get('user_type_name'),
+        url: logNamespace?.get('url'),
         ...meta,
       },
       null,

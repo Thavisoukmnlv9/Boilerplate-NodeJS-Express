@@ -20,3 +20,4 @@ const prisma = new PrismaClient().$extends(
 );
 
 export default prisma;
+
