@@ -15,18 +15,18 @@ model users {
   role      String    @db.VarChar(255)
   fullName  String?   @db.VarChar(255)
   status    Boolean?  @default(true)
-  createdAt DateTime  @default(now()) @db.Timetz(6)
-  updatedAt DateTime  @default(now()) @db.Timetz(6)
+  createdAt DateTime? @default(now()) @db.Timetz(6)
+  updatedAt DateTime? @default(now()) @db.Timetz(6)
   deletedAt DateTime? @db.Timetz(6)
 }
 
 model books {
   id           Int       @id @default(autoincrement())
-  title        String    @db.Char
-  content      String?   @db.Char
+  title        String    @db.Char(1)
+  content      String?   @db.Char(1)
   bookTypeId   Int
-  createdAt    DateTime  @default(now()) @db.Timetz(6)
-  updatedAt    DateTime  @default(now()) @db.Timetz(6)
+  createdAt    DateTime? @default(now()) @db.Timetz(6)
+  updatedAt    DateTime? @default(now()) @db.Timetz(6)
   approvedDate DateTime? @db.Timetz(6)
   bookIndex    Int
   status       Boolean?

@@ -51,8 +51,6 @@ export const createBookController = async (req: Request, res: Response) => {
   }
 };
 
-
-
 export const editBookController = async (req: Request, res: Response) => {
   const { id } = req.params;
   const bookData = { ...req.body };

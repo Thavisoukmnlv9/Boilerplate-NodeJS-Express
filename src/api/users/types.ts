@@ -6,6 +6,6 @@ export interface TokenPayload {
 }
 
 export enum Roles {
-  ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER',
+  admin = 'admin',
+  staff = 'staff',
 }

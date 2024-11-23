@@ -3,3 +3,8 @@
 version: 0.1
 cli:
   version: 1.22.8
+lint:
+  disabled:
+    - eslint
+  enabled:
+    - prettier@3.3.3

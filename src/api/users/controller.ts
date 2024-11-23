@@ -2,21 +2,30 @@ import { Request, Response } from 'express';
 import {
   createUserService,
   findOneUserService,
-  getManyUserService,
+  getListUserServices,
 } from './service';
 import { users } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 import logger from '@middleware/logger/config';
 import { sign } from '@utils/jwt';
-import { getListService } from '@api/service/getList';
+import { getUserListServices } from './get';
+
+
 
 export const getManyUserController = async (req: Request, res: Response) => {
-  const books = await getListService({ model: "users" });
+  const { page = "1", limit = "10", search = "" } = req.query;
+  const pageInt = parseInt(page as string, 10);
+  const limitInt = parseInt(limit as string, 10);
+  const user = await getUserListServices({
+    page: pageInt,
+    limit: limitInt,
+    search: search as string,
+  });
   res.json({
     status: 'ok',
-    message: 'You have been authenticated',
-    books,
+    message: 'success',
+    ...user,
   });
 };
 
@@ -25,7 +34,7 @@ export const createUserController = async (req: Request, res: Response) => {
   const tel = req.body.tel;
   const email = req.body.email;
   const password = req.body.password;
-  const role = req.body.role || 'MEMBER';
+  const role = req.body.role || 'staff';
   const status = true;
 
   try {
@@ -53,11 +62,6 @@ export const createUserController = async (req: Request, res: Response) => {
       id: 2,
       deletedAt: null,
     };
-    console.log("passwordHash,", passwordHash)
-    // INSERT INTO users (tel, email, password, role, "fullName", status, "createdAt", "updatedAt", "deletedAt")
-    // VALUES
-    //     ('59684710', 'user1@example.com', 'admin@1234', 'ADMIN', 'Thavisouk Minalavong', true, '2024-11-20 10:00:00', '2024-11-20 10:00:00', NULL);
-    
     const user = await createUserService(_user);
 
     return res.status(StatusCodes.CREATED).json({
@@ -98,7 +102,7 @@ export const loginController = async (req: Request, res: Response) => {
   const payload = {
     id: check.id,
     tel: check.tel,
-    roles: ["MANAGER"],
+    roles: [check.role],
     fullName: check.fullName,
     email: check.email
   };
