@@ -50,3 +50,30 @@ export const getUserListServices = async ({ page, limit, search, }: { page: numb
     result: dataWithIndex,
   };
 };
+
+
+export const getOneUserServices = async ({ id }: { id: number }) => {
+  try {
+    const user = await prisma.users.findFirst({
+      where: { id },
+      select: {
+        id: true,
+        fullName: true,
+        tel: true,
+        email: true,
+        role: true,
+      }
+    });
+    if (!user) {
+      throw new Error(`User with id ${id} not found`);
+    }
+    return {
+      success: true,
+      data: user,
+    };
+  } catch (error) {
+    return null;
+  } finally {
+    await prisma.$disconnect();
+  }
+};

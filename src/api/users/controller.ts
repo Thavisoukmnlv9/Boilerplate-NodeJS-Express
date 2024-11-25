@@ -5,14 +5,17 @@ import { Request, Response } from 'express';
 import {
   createUserService,
   findOneUserService,
+  findUserService,
   getListUserServices,
+  updateUserAccountService,
 } from './service';
 import { users } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 import logger from '@middleware/logger/config';
 import { sign } from '@utils/jwt';
-import { getUserListServices } from './get';
+import { getOneUserServices, getUserListServices } from './get';
+import { buildUserRecord } from './lib';
 
 
 
@@ -31,6 +34,36 @@ export const getManyUserController = async (req: Request, res: Response) => {
     ...user,
   });
 };
+export const getOneUserController = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    if (isNaN(id) || id <= 0) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid user ID',
+      });
+    }
+    const user = await getOneUserServices({ id });
+    if (!user) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'User not found',
+      });
+    }
+    return res.json({
+      status: 'ok',
+      message: 'User retrieved successfully',
+      ...user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'An unexpected error occurred',
+      error: (error as Error).message,
+    });
+  }
+};
+
 
  
 export const createUserController = async (req: Request, res: Response) => {
@@ -40,7 +73,6 @@ export const createUserController = async (req: Request, res: Response) => {
   const password = req.body.password;
   const role = req.body.role || 'staff';
   const status = true;
-
   try {
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
@@ -127,3 +159,30 @@ export const loginController = async (req: Request, res: Response) => {
     refreshToken
   });
 };
+
+export const updateUserEditAccountController = async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  try {
+    const data = await buildUserRecord(req.body);
+    const checkPhone = await findUserService(data.tel);
+    if (checkPhone && checkPhone.id !== id) {
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        status: 'error',
+        message: 'ເບີໂທນີ້ ຖືກໃຊ້ງານແລ້ວ',
+      });
+    }
+    const result = await updateUserAccountService({ data, id });
+    return res.json({
+      status: 'success',
+      message: 'edit success',
+      data: result,
+    });
+  } catch (e) {
+    logger.error(e);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      message: 'An unexpected error occurred',
+    });
+  }
+};
+

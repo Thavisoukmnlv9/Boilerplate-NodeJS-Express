@@ -3,6 +3,8 @@ import Router from 'express';
 import {
   createUserController,
   getManyUserController,
+  getOneUserController,
+  updateUserEditAccountController,
   loginController,
 } from '../api/users/controller';
 
@@ -14,7 +16,7 @@ import {
   getOneBookController,
 } from '../api/book/controller';
 
-import { valLogin, valUserCreate, valUserUpdate } from '../api/users/validate';
+import { validateUpdateUser, valLogin, valUserCreate, valUserUpdate } from '../api/users/validate';
 import { bookValidation } from '../api/book/validate';
 
 import { valResult } from '../utils/validateResult';
@@ -22,9 +24,10 @@ import { verify } from '../utils/jwt';
 
 const router = Router();
 
-router.get( '/users', getManyUserController );
+router.get( '/users', getManyUserController);
+router.get( '/users/:id', getOneUserController);
 router.post('/users', valUserCreate, valResult, createUserController);
-router.put('/users', valUserUpdate, valResult, createUserController);
+router.put('/users/:id', validateUpdateUser, valResult, updateUserEditAccountController);
 router.post('/login', valLogin, valResult, loginController);
 
 

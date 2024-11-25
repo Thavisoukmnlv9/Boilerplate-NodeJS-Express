@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable max-lines */
 import { users } from '@prisma/client';
 import { prismaClient } from '../../prisma';
 import logger from '../../middleware/logger/config';
 import { Request } from 'express';
-import { TokenPayload } from './types';
+import { TokenPayload, UserRecord } from './types';
 import { addIndexToResults } from '@utils/addIndexToResults';
-
 import { PrismaClient } from '@prisma/client';
 import { pagination } from 'prisma-extension-pagination';
+import { StatusCodes } from 'http-status-codes';
 
 export const prismaClients = new PrismaClient({
   // log: ["query", "info", "warn", "error"],
@@ -49,19 +51,11 @@ export const findOneUserService = async (tel: string) => {
 
 export const createUserService = async (user: users) => {
   const { id, ..._user } = user;
-  console.log('🚀 ~ createUserService ~ user:', _user);
-
   try {
     const result = await prismaClient.users.create({
       data: _user,
-      select: {
-        id: true,
-        fullName: true,
-        tel: true,
-        email: true,
-      },
+      select: { id: true, fullName: true, tel: true, email: true, },
     });
-
     return result;
   } catch (error) {
     logger.error(error);
@@ -75,4 +69,43 @@ export const tokenPayloadService = (req: Request): TokenPayload => {
   // @ts-ignore
   const payload = req.tokenPayload;
   return payload;
+};
+
+export const findUserService = async (tel: string) => {
+  try {
+    const result = await prismaClient.users.findFirst({
+      where: { tel },
+      select: {
+        tel: true,
+        id: true
+        
+      }
+    });
+
+    return result;
+  } catch (e) {
+    logger.error(e);
+    throw e;
+  } finally {
+    await prismaClient.$disconnect();
+  }
+};
+
+export const updateUserAccountService = async ({ id, data }: { id: number; data: UserRecord  }) => {
+  try {
+    const result = await prismaClient.users.update({
+      where: { id },
+      data,
+      select: {
+        fullName: true,
+        tel: true
+      }
+    });
+    return result;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return null;
+  } finally {
+    await prismaClient.$disconnect();
+  }
 };
