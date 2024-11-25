@@ -1,25 +1,22 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { PrismaClient, Prisma } from '@prisma/client';
 import { addIndexToResults } from '@utils/addIndexToResults';
 
 const prisma = new PrismaClient();
 
-export const getUserListServices = async ({
-  page,
-  limit,
-  search,
-}: {
-  page: number;
-  limit: number;
-  search?: string;
-}) => {
+// eslint-disable-next-line max-lines-per-function
+export const getUserListServices = async ({ page, limit, search, }: { page: number; limit: number; search?: string; }) => {
+  console.log('🚀 ~ getUserListServices ~ search:', search);
   const skip = (page - 1) * limit;
   const take = limit;
   const whereCondition: Prisma.usersWhereInput = search
     ? {
-        OR: [
-          { tel: { contains: search, mode: 'insensitive' } },
-        ],
-      }
+      OR: [
+        { tel: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+        { fullName: { contains: search, mode: 'insensitive' } },
+      ],
+    }
     : {};
   const [data, totalCount] = await Promise.all([
     prisma.users.findMany({

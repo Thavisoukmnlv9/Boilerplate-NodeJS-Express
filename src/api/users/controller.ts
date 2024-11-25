@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable max-lines */
+/* eslint-disable max-lines-per-function */
 import { Request, Response } from 'express';
 import {
   createUserService,
@@ -14,7 +17,7 @@ import { getUserListServices } from './get';
 
 
 export const getManyUserController = async (req: Request, res: Response) => {
-  const { page = "1", limit = "10", search = "" } = req.query;
+  const { page = '1', limit = '10', search = '' } = req.query;
   const pageInt = parseInt(page as string, 10);
   const limitInt = parseInt(limit as string, 10);
   const user = await getUserListServices({
@@ -29,6 +32,7 @@ export const getManyUserController = async (req: Request, res: Response) => {
   });
 };
 
+ 
 export const createUserController = async (req: Request, res: Response) => {
   const fullName = req.body.fullName;
   const tel = req.body.tel;
@@ -79,7 +83,7 @@ export const createUserController = async (req: Request, res: Response) => {
 };
 
 export const loginController = async (req: Request, res: Response) => {
-  console.log("--".repeat(50));
+  console.log('--'.repeat(50));
   const tel = req.body.tel;
   const password = req.body.password;
 
